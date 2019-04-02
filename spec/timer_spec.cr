@@ -71,7 +71,7 @@ describe Timer do
       foo.should eq "bar"
     end
 
-    context "when multiple times" do
+    context "when called multiple times" do
       foo = nil
 
       timer = Timer.new(1.second) do

@@ -25,8 +25,8 @@
 # sleep # Will print "Timeout!" after 1 second
 # ```
 #
-# You can `#postpone` and `#reschedule` a timer, but note that the latter has bigger
-# performance impact and should only be used when rescheduling to an earlier time.
+# You can `#postpone` and `#reschedule` a timer. The latter has bigger
+# performance impact if rescheduling at an earlier moment of time.
 #
 # ```
 # at = Time.utc_now + 5.minutes
@@ -38,18 +38,18 @@
 # # OK, will trigger in 6 minutes from now
 # timer.postpone(1.minute)
 #
-# # Worse performance than `#postpone`, but still works
+# # ditto
 # timer.reschedule(Time.utc_now + 6.minutes)
 #
-# # OK, will trigger in 1 minute from now (i.e. eariler)
+# # Worse performance but still acceptable
 # timer.reschedule(Time.utc_now + 1.minute)
 # ```
 #
 # Note that a timer can be scheduled at a moment in the past, which means that it
-# would run immediately after given control by Crystal scheduler.
+# would run immediately after given control by the Crystal scheduler.
 #
-# You can also `#trigger` the timer immediately (still calling the block in
-# another fiber), or `#cancel` it completely.
+# You can also `#trigger` a timer (still calling the block in another fiber) or
+# `#cancel` it completely.
 class Timer
   # When the timer is scheduled to be triggered at.
   property at : Time
@@ -99,21 +99,27 @@ class Timer
 
   # Reschedule the timer *at* desired time.
   #
-  # NOTE: For better performance, use this method only when rescheduling to an
-  # eariler moment of time. For later execution `#postpone` is preferrable.
-  def reschedule(@at : Time)
-    unless hash = @cancelled_fiber_ids
-      hash = @cancelled_fiber_ids = Hash(Float64, Bool).new
+  # NOTE: Rescheduling at earlier time has bigger performance impact than
+  # at a moment in the future.
+  def reschedule(at : Time)
+    if at >= @at
+      @at += (at - @at)
+    else
+      @at = at
+
+      unless hash = @cancelled_fiber_ids
+        hash = @cancelled_fiber_ids = Hash(Float64, Bool).new
+      end
+
+      hash[@active_fiber_id] = true
+
+      fiber_id = loop do
+        temp = rand
+        break temp unless hash.has_key?(temp)
+      end
+
+      schedule(fiber_id)
     end
-
-    hash[@active_fiber_id] = true
-
-    fiber_id = loop do
-      temp = rand
-      break temp unless hash.has_key?(temp)
-    end
-
-    schedule(fiber_id)
   end
 
   # Trigger the execution immediately.

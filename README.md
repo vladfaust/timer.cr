@@ -61,10 +61,10 @@ end
 sleep # Will print "Timeout!" after 1 second
 ```
 
-You can `#postpone` and `#reschedule` a timer, but note that the latter has bigger
-performance impact and should only be used when rescheduling to an earlier time.
+You can `#postpone` and `#reschedule` a timer. The latter has bigger
+performance impact if rescheduling at an earlier moment of time.
 
-```crystal
+```
 at = Time.utc_now + 5.minutes
 
 timer = Timer.new(at) do
@@ -74,18 +74,18 @@ end
 # OK, will trigger in 6 minutes from now
 timer.postpone(1.minute)
 
-# Worse performance than `#postpone`, but still works
+# ditto
 timer.reschedule(Time.utc_now + 6.minutes)
 
-# OK, will trigger in 1 minute from now (i.e. eariler)
+# Worse performance but still acceptable
 timer.reschedule(Time.utc_now + 1.minute)
 ```
 
 Note that a timer can be scheduled at a moment in the past, which means that it
-would be triggered immediately after given control by the Crystal scheduler.
+would run immediately after given control by the Crystal scheduler.
 
-You can also `#trigger` the timer immediately (still calling the block in
-another fiber), or `#cancel` it completely.
+You can also `#trigger` a timer (still calling the block in another fiber) or
+`#cancel` it completely.
 
 ## Development
 
