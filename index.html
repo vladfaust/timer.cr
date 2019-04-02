@@ -105,10 +105,10 @@ sleep <span class="c"># Will print &quot;Triggered&quot; after 1 second</span></
 
 sleep <span class="c"># Will print &quot;Timeout!&quot; after 1 second</span></code></pre>
 
-<p>You can <code>#postpone</code> and <code>#reschedule</code> a timer, but note that the latter has bigger
-performance impact and should only be used when rescheduling to an earlier time.</p>
+<p>You can <code>#postpone</code> and <code>#reschedule</code> a timer. The latter has bigger
+performance impact if rescheduling at an earlier moment of time.</p>
 
-<pre><code class="language-crystal">at <span class="o">=</span> <span class="t">Time</span>.utc_now <span class="o">+</span> <span class="n">5</span>.minutes
+<pre><code>at <span class="o">=</span> <span class="t">Time</span>.utc_now <span class="o">+</span> <span class="n">5</span>.minutes
 
 timer <span class="o">=</span> <span class="t">Timer</span>.<span class="k">new</span>(at) <span class="k">do</span>
   puts <span class="s">&quot;Triggered&quot;</span>
@@ -117,17 +117,17 @@ timer <span class="o">=</span> <span class="t">Timer</span>.<span class="k">new<
 <span class="c"># OK, will trigger in 6 minutes from now</span>
 timer.postpone(<span class="n">1</span>.minute)
 
-<span class="c"># Worse performance than `#postpone`, but still works</span>
+<span class="c"># ditto</span>
 timer.reschedule(<span class="t">Time</span>.utc_now <span class="o">+</span> <span class="n">6</span>.minutes)
 
-<span class="c"># OK, will trigger in 1 minute from now (i.e. eariler)</span>
+<span class="c"># Worse performance but still acceptable</span>
 timer.reschedule(<span class="t">Time</span>.utc_now <span class="o">+</span> <span class="n">1</span>.minute)</code></pre>
 
 <p>Note that a timer can be scheduled at a moment in the past, which means that it
-would be triggered immediately after given control by the Crystal scheduler.</p>
+would run immediately after given control by the Crystal scheduler.</p>
 
-<p>You can also <code>#trigger</code> the timer immediately (still calling the block in
-another fiber), or <code>#cancel</code> it completely.</p>
+<p>You can also <code>#trigger</code> a timer (still calling the block in another fiber) or
+<code>#cancel</code> it completely.</p>
 
 <h2>Development</h2>
 

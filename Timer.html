@@ -85,8 +85,8 @@ sleep</code></pre>
 
 sleep <span class="c"># Will print &quot;Timeout!&quot; after 1 second</span></code></pre>
 
-<p>You can <code><a href="Timer.html#postpone%28by%3ATime%3A%3ASpan%29-instance-method">#postpone</a></code> and <code><a href="Timer.html#reschedule%28at%3ATime%29-instance-method">#reschedule</a></code> a timer, but note that the latter has bigger
-performance impact and should only be used when rescheduling to an earlier time.</p>
+<p>You can <code><a href="Timer.html#postpone%28by%3ATime%3A%3ASpan%29-instance-method">#postpone</a></code> and <code><a href="Timer.html#reschedule%28at%3ATime%29-instance-method">#reschedule</a></code> a timer. The latter has bigger
+performance impact if rescheduling at an earlier moment of time.</p>
 
 <pre><code>at <span class="o">=</span> <span class="t">Time</span>.utc_now <span class="o">+</span> <span class="n">5</span>.minutes
 
@@ -97,17 +97,17 @@ timer <span class="o">=</span> <span class="t">Timer</span>.<span class="k">new<
 <span class="c"># OK, will trigger in 6 minutes from now</span>
 timer.postpone(<span class="n">1</span>.minute)
 
-<span class="c"># Worse performance than `#postpone`, but still works</span>
+<span class="c"># ditto</span>
 timer.reschedule(<span class="t">Time</span>.utc_now <span class="o">+</span> <span class="n">6</span>.minutes)
 
-<span class="c"># OK, will trigger in 1 minute from now (i.e. eariler)</span>
+<span class="c"># Worse performance but still acceptable</span>
 timer.reschedule(<span class="t">Time</span>.utc_now <span class="o">+</span> <span class="n">1</span>.minute)</code></pre>
 
 <p>Note that a timer can be scheduled at a moment in the past, which means that it
-would run immediately after given control by Crystal scheduler.</p>
+would run immediately after given control by the Crystal scheduler.</p>
 
-<p>You can also <code><a href="Timer.html#trigger-instance-method">#trigger</a></code> the timer immediately (still calling the block in
-another fiber), or <code><a href="Timer.html#cancel-instance-method">#cancel</a></code> it completely.</p>
+<p>You can also <code><a href="Timer.html#trigger-instance-method">#trigger</a></code> a timer (still calling the block in another fiber) or
+<code><a href="Timer.html#cancel-instance-method">#cancel</a></code> it completely.</p>
 
 
 
@@ -125,7 +125,7 @@ another fiber), or <code><a href="Timer.html#cancel-instance-method">#cancel</a>
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/vladfaust/timer.cr/blob/4d80207d94d12f325d849936fe71b9a0ec04c7b3/src/timer.cr#L53" target="_blank">
+      <a href="https://github.com/vladfaust/timer.cr/blob/c32f169b45ff63a044f061d033095693cf883db4/src/timer.cr#L53" target="_blank">
         timer.cr
       </a>
     
@@ -264,7 +264,7 @@ another fiber), or <code><a href="Timer.html#cancel-instance-method">#cancel</a>
       <br/>
       <div>
         
-          [<a href="https://github.com/vladfaust/timer.cr/blob/4d80207d94d12f325d849936fe71b9a0ec04c7b3/src/timer.cr#L70" target="_blank">View source</a>]
+          [<a href="https://github.com/vladfaust/timer.cr/blob/c32f169b45ff63a044f061d033095693cf883db4/src/timer.cr#L70" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -282,7 +282,7 @@ another fiber), or <code><a href="Timer.html#cancel-instance-method">#cancel</a>
       <br/>
       <div>
         
-          [<a href="https://github.com/vladfaust/timer.cr/blob/4d80207d94d12f325d849936fe71b9a0ec04c7b3/src/timer.cr#L84" target="_blank">View source</a>]
+          [<a href="https://github.com/vladfaust/timer.cr/blob/c32f169b45ff63a044f061d033095693cf883db4/src/timer.cr#L84" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -307,7 +307,7 @@ another fiber), or <code><a href="Timer.html#cancel-instance-method">#cancel</a>
       <br/>
       <div>
         
-          [<a href="https://github.com/vladfaust/timer.cr/blob/4d80207d94d12f325d849936fe71b9a0ec04c7b3/src/timer.cr#L57" target="_blank">View source</a>]
+          [<a href="https://github.com/vladfaust/timer.cr/blob/c32f169b45ff63a044f061d033095693cf883db4/src/timer.cr#L57" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -325,7 +325,7 @@ another fiber), or <code><a href="Timer.html#cancel-instance-method">#cancel</a>
       <br/>
       <div>
         
-          [<a href="https://github.com/vladfaust/timer.cr/blob/4d80207d94d12f325d849936fe71b9a0ec04c7b3/src/timer.cr#L61" target="_blank">View source</a>]
+          [<a href="https://github.com/vladfaust/timer.cr/blob/c32f169b45ff63a044f061d033095693cf883db4/src/timer.cr#L61" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -343,7 +343,7 @@ another fiber), or <code><a href="Timer.html#cancel-instance-method">#cancel</a>
       <br/>
       <div>
         
-          [<a href="https://github.com/vladfaust/timer.cr/blob/4d80207d94d12f325d849936fe71b9a0ec04c7b3/src/timer.cr#L126" target="_blank">View source</a>]
+          [<a href="https://github.com/vladfaust/timer.cr/blob/c32f169b45ff63a044f061d033095693cf883db4/src/timer.cr#L132" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -361,7 +361,7 @@ another fiber), or <code><a href="Timer.html#cancel-instance-method">#cancel</a>
       <br/>
       <div>
         
-          [<a href="https://github.com/vladfaust/timer.cr/blob/4d80207d94d12f325d849936fe71b9a0ec04c7b3/src/timer.cr#L63" target="_blank">View source</a>]
+          [<a href="https://github.com/vladfaust/timer.cr/blob/c32f169b45ff63a044f061d033095693cf883db4/src/timer.cr#L63" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -379,7 +379,7 @@ another fiber), or <code><a href="Timer.html#cancel-instance-method">#cancel</a>
       <br/>
       <div>
         
-          [<a href="https://github.com/vladfaust/timer.cr/blob/4d80207d94d12f325d849936fe71b9a0ec04c7b3/src/timer.cr#L60" target="_blank">View source</a>]
+          [<a href="https://github.com/vladfaust/timer.cr/blob/c32f169b45ff63a044f061d033095693cf883db4/src/timer.cr#L60" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -397,7 +397,7 @@ another fiber), or <code><a href="Timer.html#cancel-instance-method">#cancel</a>
       <br/>
       <div>
         
-          [<a href="https://github.com/vladfaust/timer.cr/blob/4d80207d94d12f325d849936fe71b9a0ec04c7b3/src/timer.cr#L96" target="_blank">View source</a>]
+          [<a href="https://github.com/vladfaust/timer.cr/blob/c32f169b45ff63a044f061d033095693cf883db4/src/timer.cr#L96" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -412,13 +412,13 @@ another fiber), or <code><a href="Timer.html#cancel-instance-method">#cancel</a>
       
         <div class="doc"><p>Reschedule the timer <em>at</em> desired time.</p>
 
-<p><span class="flag purple">NOTE</span>  For better performance, use this method only when rescheduling to an
-eariler moment of time. For later execution <code><a href="Timer.html#postpone%28by%3ATime%3A%3ASpan%29-instance-method">#postpone</a></code> is preferrable.</p></div>
+<p><span class="flag purple">NOTE</span>  Rescheduling at earlier time has bigger performance impact than
+at a moment in the future.</p></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/vladfaust/timer.cr/blob/4d80207d94d12f325d849936fe71b9a0ec04c7b3/src/timer.cr#L104" target="_blank">View source</a>]
+          [<a href="https://github.com/vladfaust/timer.cr/blob/c32f169b45ff63a044f061d033095693cf883db4/src/timer.cr#L104" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -436,7 +436,7 @@ eariler moment of time. For later execution <code><a href="Timer.html#postpone%2
       <br/>
       <div>
         
-          [<a href="https://github.com/vladfaust/timer.cr/blob/4d80207d94d12f325d849936fe71b9a0ec04c7b3/src/timer.cr#L120" target="_blank">View source</a>]
+          [<a href="https://github.com/vladfaust/timer.cr/blob/c32f169b45ff63a044f061d033095693cf883db4/src/timer.cr#L126" target="_blank">View source</a>]
         
       </div>
     </div>
