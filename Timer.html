@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.27.2">
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "";
+</script>
+
+  <meta id="repository-name" content="github.com/vladfaust/timer.cr">
+  <title>Timer - github.com/vladfaust/timer.cr</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" current" data-id="github.com/vladfaust/timer.cr/Timer" data-name="timer">
+      <a href="Timer.html">Timer</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> Timer
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="Timer.html">Timer</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>Overview</h2>
+
+  <p>Versatile Timer class which relies on Crystal scheduler.</p>
+
+<p>Basic example:</p>
+
+<pre><code><span class="t">Timer</span>.<span class="k">new</span>(<span class="n">1</span>.second) <span class="k">do</span>
+  puts <span class="s">&quot;1 second has passed!&quot;</span>
+<span class="k">end</span>
+
+sleep</code></pre>
+
+<p>Example with <code>select</code>:</p>
+
+<pre><code>channel <span class="o">=</span> <span class="t">Channel</span>(<span class="t">Nil</span>).<span class="k">new</span>
+
+<span class="k">select</span>
+<span class="k">when</span> channel.receive
+  puts <span class="s">&quot;Never happens&quot;</span>
+<span class="k">when</span> <span class="t">Timer</span>.<span class="k">new</span>(<span class="n">1</span>.second)
+  puts <span class="s">&quot;Timeout!&quot;</span>
+<span class="k">end</span>
+
+sleep <span class="c"># Will print &quot;Timeout!&quot; after 1 second</span></code></pre>
+
+<p>You can <code><a href="Timer.html#postpone%28by%3ATime%3A%3ASpan%29-instance-method">#postpone</a></code> and <code><a href="Timer.html#reschedule%28at%3ATime%29-instance-method">#reschedule</a></code> a timer, but note that the latter has bigger
+performance impact and should only be used when rescheduling to an earlier time.</p>
+
+<pre><code>at <span class="o">=</span> <span class="t">Time</span>.utc_now <span class="o">+</span> <span class="n">5</span>.minutes
+
+timer <span class="o">=</span> <span class="t">Timer</span>.<span class="k">new</span>(at) <span class="k">do</span>
+  puts <span class="s">&quot;Triggered&quot;</span>
+<span class="k">end</span>
+
+<span class="c"># OK, will trigger in 6 minutes from now</span>
+timer.postpone(<span class="n">1</span>.minute)
+
+<span class="c"># Worse performance than `#postpone`, but still works</span>
+timer.reschedule(<span class="t">Time</span>.utc_now <span class="o">+</span> <span class="n">6</span>.minutes)
+
+<span class="c"># OK, will trigger in 1 minute from now (i.e. eariler)</span>
+timer.reschedule(<span class="t">Time</span>.utc_now <span class="o">+</span> <span class="n">1</span>.minute)</code></pre>
+
+<p>Note that a timer can be scheduled at a moment in the past, which means that it
+would run immediately after given control by Crystal scheduler.</p>
+
+<p>You can also <code><a href="Timer.html#trigger-instance-method">#trigger</a></code> the timer immediately (still calling the block in
+another fiber), or <code><a href="Timer.html#cancel-instance-method">#cancel</a></code> it completely.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/vladfaust/timer.cr/blob/44e0719046c9a9750deb7be5b58245b7cc7dc3dc/src/timer.cr#L53" target="_blank">
+        timer.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>Constructors</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28at%3ATime%2C%26block%29-class-method" class="signature"><strong>.new</strong>(at : Time, &block)</a>
+        
+          <div class="summary"><p>Execute the <em>block</em> <em>at</em> the moment of time.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new%28in%3ATime%3A%3ASpan%2C%26block%29-class-method" class="signature"><strong>.new</strong>(in : Time::Span, &block)</a>
+        
+          <div class="summary"><p>Execute the <em>block</em> <em>in</em> some time span.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#at%3ATime-instance-method" class="signature"><strong>#at</strong> : Time</a>
+        
+          <div class="summary"><p>When the timer is scheduled to be triggered at.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#at%3D%28at%3ATime%29-instance-method" class="signature"><strong>#at=</strong>(at : Time)</a>
+        
+          <div class="summary"><p>When the timer is scheduled to be triggered at.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#cancel-instance-method" class="signature"><strong>#cancel</strong></a>
+        
+          <div class="summary"><p>Cancel this timer.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#cancelled%3F%3ABool-instance-method" class="signature"><strong>#cancelled?</strong> : Bool</a>
+        
+          <div class="summary"><p>Whether is the timer cancelled.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#completed%3F%3ABool-instance-method" class="signature"><strong>#completed?</strong> : Bool</a>
+        
+          <div class="summary"><p>Whether is the timer already triggered.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#postpone%28by%3ATime%3A%3ASpan%29-instance-method" class="signature"><strong>#postpone</strong>(by : Time::Span)</a>
+        
+          <div class="summary"><p>Postpone the execution <em>by</em> a time span.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reschedule%28at%3ATime%29-instance-method" class="signature"><strong>#reschedule</strong>(at : Time)</a>
+        
+          <div class="summary"><p>Reschedule the timer <em>at</em> desired time.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#trigger-instance-method" class="signature"><strong>#trigger</strong></a>
+        
+          <div class="summary"><p>Trigger the execution immediately.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>Constructor Detail</h2>
+  
+    <div class="entry-detail" id="new(at:Time,&amp;block)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(at : Time, &block)
+
+        <a class="method-permalink" href="#new%28at%3ATime%2C%26block%29-class-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Execute the <em>block</em> <em>at</em> the moment of time.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/vladfaust/timer.cr/blob/44e0719046c9a9750deb7be5b58245b7cc7dc3dc/src/timer.cr#L70" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(in:Time::Span,&amp;block)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(in : Time::Span, &block)
+
+        <a class="method-permalink" href="#new%28in%3ATime%3A%3ASpan%2C%26block%29-class-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Execute the <em>block</em> <em>in</em> some time span.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/vladfaust/timer.cr/blob/44e0719046c9a9750deb7be5b58245b7cc7dc3dc/src/timer.cr#L84" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="at:Time-instance-method">
+      <div class="signature">
+        
+        def <strong>at</strong> : Time
+
+        <a class="method-permalink" href="#at%3ATime-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>When the timer is scheduled to be triggered at.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/vladfaust/timer.cr/blob/44e0719046c9a9750deb7be5b58245b7cc7dc3dc/src/timer.cr#L57" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="at=(at:Time)-instance-method">
+      <div class="signature">
+        
+        def <strong>at=</strong>(at : Time)
+
+        <a class="method-permalink" href="#at%3D%28at%3ATime%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>When the timer is scheduled to be triggered at.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/vladfaust/timer.cr/blob/44e0719046c9a9750deb7be5b58245b7cc7dc3dc/src/timer.cr#L61" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="cancel-instance-method">
+      <div class="signature">
+        
+        def <strong>cancel</strong>
+
+        <a class="method-permalink" href="#cancel-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Cancel this timer.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/vladfaust/timer.cr/blob/44e0719046c9a9750deb7be5b58245b7cc7dc3dc/src/timer.cr#L126" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="cancelled?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>cancelled?</strong> : Bool
+
+        <a class="method-permalink" href="#cancelled%3F%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Whether is the timer cancelled.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/vladfaust/timer.cr/blob/44e0719046c9a9750deb7be5b58245b7cc7dc3dc/src/timer.cr#L63" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="completed?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>completed?</strong> : Bool
+
+        <a class="method-permalink" href="#completed%3F%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Whether is the timer already triggered.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/vladfaust/timer.cr/blob/44e0719046c9a9750deb7be5b58245b7cc7dc3dc/src/timer.cr#L60" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="postpone(by:Time::Span)-instance-method">
+      <div class="signature">
+        
+        def <strong>postpone</strong>(by : Time::Span)
+
+        <a class="method-permalink" href="#postpone%28by%3ATime%3A%3ASpan%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Postpone the execution <em>by</em> a time span.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/vladfaust/timer.cr/blob/44e0719046c9a9750deb7be5b58245b7cc7dc3dc/src/timer.cr#L96" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reschedule(at:Time)-instance-method">
+      <div class="signature">
+        
+        def <strong>reschedule</strong>(at : Time)
+
+        <a class="method-permalink" href="#reschedule%28at%3ATime%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Reschedule the timer <em>at</em> desired time.</p>
+
+<p><span class="flag purple">NOTE</span>  For better performance, use this method only when rescheduling to an
+eariler moment of time. For later execution <code><a href="Timer.html#postpone%28by%3ATime%3A%3ASpan%29-instance-method">#postpone</a></code> is preferrable.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/vladfaust/timer.cr/blob/44e0719046c9a9750deb7be5b58245b7cc7dc3dc/src/timer.cr#L104" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="trigger-instance-method">
+      <div class="signature">
+        
+        def <strong>trigger</strong>
+
+        <a class="method-permalink" href="#trigger-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Trigger the execution immediately.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/vladfaust/timer.cr/blob/44e0719046c9a9750deb7be5b58245b7cc7dc3dc/src/timer.cr#L120" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>
