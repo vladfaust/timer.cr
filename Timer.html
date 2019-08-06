@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.29.0">
+<meta name="generator" content="Crystal Docs 0.30.0">
 
 
 <link href="css/style.css" rel="stylesheet" type="text/css">
@@ -85,7 +85,7 @@ sleep</code></pre>
 
 sleep <span class="c"># Will print &quot;Timeout!&quot; after 1 second</span></code></pre>
 
-<p>You can <code><a href="Timer.html#postpone%28by%3ATime%3A%3ASpan%29-instance-method">#postpone</a></code> and <code><a href="Timer.html#reschedule%28at%3ATime%29-instance-method">#reschedule</a></code> a timer. The latter has bigger
+<p>You can <code><a href="Timer.html#postpone(by:Time::Span)-instance-method">#postpone</a></code> and <code><a href="Timer.html#reschedule(at:Time)-instance-method">#reschedule</a></code> a timer. The latter has bigger
 performance impact if rescheduling at an earlier moment of time.</p>
 
 <pre><code>at <span class="o">=</span> <span class="t">Time</span>.utc_now <span class="o">+</span> <span class="n">5</span>.minutes
@@ -140,14 +140,14 @@ would run immediately after given control by the Crystal scheduler.</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new%28at%3ATime%2C%26block%29-class-method" class="signature"><strong>.new</strong>(at : Time, &block)</a>
+        <a href="#new(at:Time,&block)-class-method" class="signature"><strong>.new</strong>(at : Time, &block)</a>
         
           <div class="summary"><p>Execute the <em>block</em> <em>at</em> the moment of time.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#new%28in%3ATime%3A%3ASpan%2C%26block%29-class-method" class="signature"><strong>.new</strong>(in : Time::Span, &block)</a>
+        <a href="#new(in:Time::Span,&block)-class-method" class="signature"><strong>.new</strong>(in : Time::Span, &block)</a>
         
           <div class="summary"><p>Execute the <em>block</em> <em>in</em> some time span.</p></div>
         
@@ -163,14 +163,14 @@ would run immediately after given control by the Crystal scheduler.</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#at%3ATime-instance-method" class="signature"><strong>#at</strong> : Time</a>
+        <a href="#at:Time-instance-method" class="signature"><strong>#at</strong> : Time</a>
         
           <div class="summary"><p>When the timer is scheduled to be triggered at.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#at%3D%28at%3ATime%29-instance-method" class="signature"><strong>#at=</strong>(at : Time)</a>
+        <a href="#at=(at:Time)-instance-method" class="signature"><strong>#at=</strong>(at : Time)</a>
         
           <div class="summary"><p>When the timer is scheduled to be triggered at.</p></div>
         
@@ -184,28 +184,28 @@ would run immediately after given control by the Crystal scheduler.</p>
       </li>
     
       <li class="entry-summary">
-        <a href="#cancelled%3F%3ABool-instance-method" class="signature"><strong>#cancelled?</strong> : Bool</a>
+        <a href="#cancelled?:Bool-instance-method" class="signature"><strong>#cancelled?</strong> : Bool</a>
         
           <div class="summary"><p>Whether is the timer cancelled.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#completed%3F%3ABool-instance-method" class="signature"><strong>#completed?</strong> : Bool</a>
+        <a href="#completed?:Bool-instance-method" class="signature"><strong>#completed?</strong> : Bool</a>
         
           <div class="summary"><p>Whether is the timer already triggered.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#postpone%28by%3ATime%3A%3ASpan%29-instance-method" class="signature"><strong>#postpone</strong>(by : Time::Span)</a>
+        <a href="#postpone(by:Time::Span)-instance-method" class="signature"><strong>#postpone</strong>(by : Time::Span)</a>
         
           <div class="summary"><p>Postpone the execution <em>by</em> a time span.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#reschedule%28at%3ATime%29-instance-method" class="signature"><strong>#reschedule</strong>(at : Time)</a>
+        <a href="#reschedule(at:Time)-instance-method" class="signature"><strong>#reschedule</strong>(at : Time)</a>
         
           <div class="summary"><p>Reschedule the timer <em>at</em> desired time.</p></div>
         
@@ -256,7 +256,7 @@ would run immediately after given control by the Crystal scheduler.</p>
         
         def self.<strong>new</strong>(at : Time, &block)
 
-        <a class="method-permalink" href="#new%28at%3ATime%2C%26block%29-class-method">#</a>
+        <a class="method-permalink" href="#new(at:Time,&block)-class-method">#</a>
       </div>
       
         <div class="doc"><p>Execute the <em>block</em> <em>at</em> the moment of time.</p></div>
@@ -274,7 +274,7 @@ would run immediately after given control by the Crystal scheduler.</p>
         
         def self.<strong>new</strong>(in : Time::Span, &block)
 
-        <a class="method-permalink" href="#new%28in%3ATime%3A%3ASpan%2C%26block%29-class-method">#</a>
+        <a class="method-permalink" href="#new(in:Time::Span,&block)-class-method">#</a>
       </div>
       
         <div class="doc"><p>Execute the <em>block</em> <em>in</em> some time span.</p></div>
@@ -299,7 +299,7 @@ would run immediately after given control by the Crystal scheduler.</p>
         
         def <strong>at</strong> : Time
 
-        <a class="method-permalink" href="#at%3ATime-instance-method">#</a>
+        <a class="method-permalink" href="#at:Time-instance-method">#</a>
       </div>
       
         <div class="doc"><p>When the timer is scheduled to be triggered at.</p></div>
@@ -317,7 +317,7 @@ would run immediately after given control by the Crystal scheduler.</p>
         
         def <strong>at=</strong>(at : Time)
 
-        <a class="method-permalink" href="#at%3D%28at%3ATime%29-instance-method">#</a>
+        <a class="method-permalink" href="#at=(at:Time)-instance-method">#</a>
       </div>
       
         <div class="doc"><p>When the timer is scheduled to be triggered at.</p></div>
@@ -353,7 +353,7 @@ would run immediately after given control by the Crystal scheduler.</p>
         
         def <strong>cancelled?</strong> : Bool
 
-        <a class="method-permalink" href="#cancelled%3F%3ABool-instance-method">#</a>
+        <a class="method-permalink" href="#cancelled?:Bool-instance-method">#</a>
       </div>
       
         <div class="doc"><p>Whether is the timer cancelled.</p></div>
@@ -371,7 +371,7 @@ would run immediately after given control by the Crystal scheduler.</p>
         
         def <strong>completed?</strong> : Bool
 
-        <a class="method-permalink" href="#completed%3F%3ABool-instance-method">#</a>
+        <a class="method-permalink" href="#completed?:Bool-instance-method">#</a>
       </div>
       
         <div class="doc"><p>Whether is the timer already triggered.</p></div>
@@ -389,7 +389,7 @@ would run immediately after given control by the Crystal scheduler.</p>
         
         def <strong>postpone</strong>(by : Time::Span)
 
-        <a class="method-permalink" href="#postpone%28by%3ATime%3A%3ASpan%29-instance-method">#</a>
+        <a class="method-permalink" href="#postpone(by:Time::Span)-instance-method">#</a>
       </div>
       
         <div class="doc"><p>Postpone the execution <em>by</em> a time span.</p></div>
@@ -407,7 +407,7 @@ would run immediately after given control by the Crystal scheduler.</p>
         
         def <strong>reschedule</strong>(at : Time)
 
-        <a class="method-permalink" href="#reschedule%28at%3ATime%29-instance-method">#</a>
+        <a class="method-permalink" href="#reschedule(at:Time)-instance-method">#</a>
       </div>
       
         <div class="doc"><p>Reschedule the timer <em>at</em> desired time.</p>
