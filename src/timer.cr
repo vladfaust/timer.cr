@@ -29,7 +29,7 @@
 # performance impact if rescheduling at an earlier moment of time.
 #
 # ```
-# at = Time.utc_now + 5.minutes
+# at = Time.utc + 5.minutes
 #
 # timer = Timer.new(at) do
 #   puts "Triggered"
@@ -39,10 +39,10 @@
 # timer.postpone(1.minute)
 #
 # # ditto
-# timer.reschedule(Time.utc_now + 6.minutes)
+# timer.reschedule(Time.utc + 6.minutes)
 #
 # # Worse performance but still acceptable
-# timer.reschedule(Time.utc_now + 1.minute)
+# timer.reschedule(Time.utc + 1.minute)
 # ```
 #
 # Note that a timer can be scheduled at a moment in the past, which means that it
@@ -82,7 +82,7 @@ class Timer
 
   # Execute the *block* *in* some time span.
   def self.new(in : Time::Span, &block)
-    new(Time.utc_now + in, &block)
+    new(Time.utc + in, &block)
   end
 
   # :nodoc:
@@ -138,7 +138,7 @@ class Timer
   protected def schedule(fiber_id = rand)
     spawn do
       loop do
-        sleep({Time::Span.zero, @at - Time.utc_now}.max)
+        sleep({Time::Span.zero, @at - Time.utc}.max)
 
         if @completed || @cancelled
           break
@@ -148,7 +148,7 @@ class Timer
           break
         end
 
-        if Time.utc_now < @at
+        if Time.utc < @at
           next
         end
 

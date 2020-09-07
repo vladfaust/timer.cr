@@ -16,7 +16,7 @@ describe Timer do
   it "works with Time" do
     foo = nil
 
-    timer = Timer.new(Time.utc_now + 0.5.seconds) do
+    timer = Timer.new(Time.utc + 0.5.seconds) do
       foo = "bar"
     end
 
@@ -62,7 +62,7 @@ describe Timer do
 
       sleep(0.1.seconds)
 
-      timer.reschedule(Time.utc_now + 0.2.seconds)
+      timer.reschedule(Time.utc + 0.2.seconds)
 
       sleep(0.1.seconds)
       foo.should be_nil
@@ -80,10 +80,10 @@ describe Timer do
 
       sleep(0.1.seconds)
 
-      timer.reschedule(Time.utc_now + 0.2.seconds)
+      timer.reschedule(Time.utc + 0.2.seconds)
 
       sleep(0.1.seconds)
-      timer.reschedule(Time.utc_now + 0.2.seconds)
+      timer.reschedule(Time.utc + 0.2.seconds)
 
       sleep(0.1.seconds)
       foo.should be_nil
