@@ -65,7 +65,7 @@ You can `#postpone` and `#reschedule` a timer. The latter has bigger
 performance impact if rescheduling at an earlier moment of time.
 
 ```
-at = Time.utc_now + 5.minutes
+at = Time.utc + 5.minutes
 
 timer = Timer.new(at) do
   puts "Triggered"
@@ -75,10 +75,10 @@ end
 timer.postpone(1.minute)
 
 # ditto
-timer.reschedule(Time.utc_now + 6.minutes)
+timer.reschedule(Time.utc + 6.minutes)
 
 # Worse performance but still acceptable
-timer.reschedule(Time.utc_now + 1.minute)
+timer.reschedule(Time.utc + 1.minute)
 ```
 
 Note that a timer can be scheduled at a moment in the past, which means that it
